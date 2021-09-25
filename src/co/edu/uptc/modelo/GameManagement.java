@@ -19,13 +19,17 @@ public class GameManagement {
 	private boolean inGame=false;
 	
 	ArrayList<Jugador> jugador;
+	
 	// Seccion para inicio del juego
 	public GameManagement (int numberPlayers,String level) {
 		this.inGame=true;
 		this.numberPlayers=numberPlayers;
 		this.level=level;
 		jugador= new ArrayList<>();
+		addPlayers();
+		selectFirstShift();
 	}
+	
 	public boolean addPlayers() {
 		
 		for (int i = 0; i < this.numberPlayers; i++) {
@@ -63,54 +67,77 @@ public class GameManagement {
 	
 	// Inicia la seccion estando en juego.
 	
-	// Este metodo controlara absolutamente todo el proceso de los turnos y las reglas de el juego
+	// Este metodo ejecuta el funionamiento completo del juego
+	
+	public boolean playGame() {
+		throwDice();
+		if (addScore(score) && inGame) {
+			addPair();
+			addScore();
+			winByPoints();
+			if (inGame) turningPlayers();
+			return true;
+		}
+		return false;
+	}
+	
+	// Forma ciclica de los turnos
 	public void turningPlayers () {
+			this.currentTurn++;
 			if(currentTurn>jugador.size()) {
 				this.currentTurn=1;
 			}
-			this.currentTurn++;
+			
 	}
+	
+	
 	// lanzamiento de dados
 	public int[] throwDice(){
 		this.dice01= new Random().nextInt(6)+1;
 		this.dice02= new Random().nextInt(6)+1;
 		return score;
 	}
+	
 	// Sumar dados y validar el score
 	public boolean addScore(int score[]) {
 		jugador.get(currentTurn-1).setDiceScore(score);
 		if(score[0]==1 && score[1]==1) {
 			return 7-jugador.get(currentTurn-1).getRemainingScore()<0?false:true;
+		}else {
+			return score[0]+score[1]-jugador.get(currentTurn-1).getRemainingScore()<0?false:true;
 		}
-		return score[0]+score[1]-jugador.get(currentTurn-1).getRemainingScore()<0?false:true;
+		
 	}
+	
 	// Añadir el score
 	public boolean addScore() {
 		int amountAdd=0;
-		if(addScore(throwDice())) {
+		if(addScore(score)) {
 			if(score[0]==1 && score[1]==1) {
 				amountAdd=7;
 				jugador.get(currentTurn-1).setCurrentScore(amountAdd);
 				jugador.get(currentTurn-1).setRemainingScore(jugador.get(currentTurn-1).getRemainingScore()-amountAdd);;
 				return true;
+			}else {
+				amountAdd=score[0]+score[1];
+				jugador.get(currentTurn-1).setCurrentScore(amountAdd);
+				jugador.get(currentTurn-1).setRemainingScore(jugador.get(currentTurn-1).getRemainingScore()-amountAdd);;
+				return true;
 			}
-			amountAdd=score[0]+score[1];
-			jugador.get(currentTurn-1).setCurrentScore(amountAdd);
-			jugador.get(currentTurn-1).setRemainingScore(jugador.get(currentTurn-1).getRemainingScore()-amountAdd);;
-			return true;
+
 		}
 		return false;
 	}
 	
 	//Metodo que retorna la cantidad de pares
-	public int addShowPair() {
+	public boolean addPair() {
 		if(score[0]==score[1]) {
 			jugador.get(currentTurn-1).addPair();;
-			return jugador.get(currentTurn-1).getPairs();
+			return true;
 		}
 		else {
 			jugador.get(currentTurn-1).setPairs(0);
-			return jugador.get(currentTurn-1).getPairs();	
+			return false;
 		}
 		 
 	}
@@ -124,8 +151,9 @@ public class GameManagement {
 	
 	public boolean returnPlayer() {
 		while(findPalyerWhitSameScore(this.score)!=null) {
-			findPalyerWhitSameScore(this.score).setRemainingScore(findPalyerWhitSameScore(score).getPointsLevel());;
-			findPalyerWhitSameScore(this.score).setCurrentScore(0);
+			findPalyerWhitSameScore(this.score).setRemainingScore(findPalyerWhitSameScore(score).getPointsLevel());;// Restaura la cantidad de puntos que le hacen falta
+			findPalyerWhitSameScore(this.score).setCurrentScore(0);// Restaura los puntos a cero
+			findPalyerWhitSameScore(this.score).addReturn();// Añade un retorno 
 		}
 		return true;
 	}

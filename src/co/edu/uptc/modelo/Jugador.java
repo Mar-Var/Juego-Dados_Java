@@ -19,8 +19,11 @@ public class Jugador {
 		this.diceScore=null;
 	}
 	public void addPair() {
-		this.pairs++;
+		this.pairs+=1;
 	}	
+	public void addReturn() {
+		this.returns+=1;
+	}
 	
 	
 
