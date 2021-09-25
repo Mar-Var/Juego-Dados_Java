@@ -2,6 +2,8 @@ package co.edu.uptc.modelo;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameManagement {
 	private int initialShift;
@@ -21,6 +23,10 @@ public class GameManagement {
 	ArrayList<Jugador> jugador;
 	
 	// Seccion para inicio del juego
+	
+	public GameManagement() {
+		
+	}
 	public GameManagement (int numberPlayers,String level) {
 		this.inGame=true;
 		this.numberPlayers=numberPlayers;
@@ -177,6 +183,38 @@ public class GameManagement {
 	}
 	
 	
+	
+  /*  public void timerTask(String mensaje,String dato){
+        
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            int tic=1;
+            @Override
+            public void run() {
+                
+                if(tic==1){
+                  if(dato.equals("p1")){
+                      jLabelWaringp1.setText(mensaje); 
+                    }
+                  if(dato.equals("p2")){
+                      jLabelWaring.setText(mensaje); 
+                    }
+
+                }else{
+                    jLabelWaringp1.setText("");
+                    jLabelWaring.setText("");
+                    timer.cancel();
+                }
+              tic--;
+            }
+            
+        };
+        timer.schedule(task,0,3000);
+          
+          
+      }
+	
+	*/
 	
 	
 	
