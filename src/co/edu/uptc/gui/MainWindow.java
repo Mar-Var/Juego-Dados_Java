@@ -1,6 +1,7 @@
 package co.edu.uptc.gui;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -61,9 +62,9 @@ public class MainWindow extends JFrame {
 
 	public MainWindow() {
 		super("Rapidos y Furiosos");
-		setSize( new Dimension(1280,730));// Ajustar tamaño de ventana
+		setSize( new Dimension(650,420));// Ajustar tamaño de ventana		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);// Decir que pasa cuando se cierre la ventana
-		//setResizable(false);// para decir que la ventana no se pueda cambiar de tamaño
+		setResizable(false);
 		setLayout(new GridBagLayout());
 	}
 	
@@ -79,9 +80,8 @@ public class MainWindow extends JFrame {
 		
 		gbc.gridy=0;
 		gbc.gridx=0;
-		gbc.fill=GridBagConstraints.HORIZONTAL;
-		gbc.weightx=1.0;
-		gbc.anchor=GridBagConstraints.WEST;
+		gbc.insets=new Insets(5, 5, 5, 5);
+		gbc.anchor=GridBagConstraints.CENTER;
 		add(lbTile,gbc);
 		gbc.anchor=GridBagConstraints.EAST;
 
@@ -166,12 +166,10 @@ public class MainWindow extends JFrame {
 		gbc2.gridy=3;
 		gbc2.gridx=0;
 		pnResults.add(lbReturns,gbc2);
+		addComponenetsPnPares();
 		gbc2.gridx=1;
 		pnResults.add(lbReturnsNumber,gbc2);
-		
-		
-		
-		
+		addComponenetsPnWinner();
 	}
 	private void addComponenetsPnComboButtons() {
 		
@@ -224,21 +222,27 @@ public class MainWindow extends JFrame {
 	}
 	private void addComponenetsPnPares() {
 		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx=0;
+		gbc.gridy=0;
+		pnPares.add(lbPairsNumbers);
 		
 	}
 	private void addComponenetsPnWinner() {
 		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx=0;
+		gbc.gridy=0;
+		pnWinner.add(lbWinnerNumber);
 		
 	}
 	
 
 	private void createComponents() {
 		
-		lbTile= new JLabel("Title");
+		lbTile= new JLabel("JUEGO DE LOS DADOS");
+		lbTile.setFont(new Font("Arial",Font.BOLD,24));
 		//---------------------------------------------------------------------------------
 		pnBodyProgram= new JPanel();
 		pnBodyProgram.setLayout(new GridBagLayout());
-		pnBodyProgram.setBorder(new TitledBorder("Nada de Nada"));
 		//---------------------------------------------------------------------------------
 		pnConfiguration= new JPanel();
 		pnConfiguration.setLayout(new GridBagLayout());
@@ -277,15 +281,15 @@ public class MainWindow extends JFrame {
 		btnAbout=new JButton("Acerca de...");
 		
 		pnGameZone= new JPanel();
-		pnGameZone.setPreferredSize(new Dimension(new Dimension(200,100)));
+		pnGameZone.setPreferredSize(new Dimension(new Dimension(200,120)));
 		pnGameZone.setLayout(new GridBagLayout());
 		pnGameZone.setBorder(new TitledBorder("Zona de juego"));
 		
 		
 		pnComboImagen = new JPanel();
 		pnComboImagen.setLayout(new GridBagLayout());
-		ImageIcon imageIcon1 = new ImageIcon(new ImageIcon("img/dado1.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
-		ImageIcon imageIcon2 = new ImageIcon(new ImageIcon("img/dado.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+		ImageIcon imageIcon1 = new ImageIcon(new ImageIcon("img/gifdado2.gif").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+		ImageIcon imageIcon2 = new ImageIcon(new ImageIcon("img/gifdado.gif").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		lbIconImage1=new JLabel(imageIcon1);
 		lbIconImage2=new JLabel(imageIcon2);;
 		lbScore= new JLabel("99");
@@ -293,16 +297,17 @@ public class MainWindow extends JFrame {
 		btnThrowPlayer.setLabel("Jugador numero");;
 		
 		pnPares = new JPanel();
-		pnPares.setPreferredSize(new Dimension(200,100));
+		pnPares.setPreferredSize(new Dimension(200,120));
 		
 		pnPares.setLayout(new GridBagLayout());
-		lbPairsNumbers= new JLabel();
+		lbPairsNumbers= new JLabel("XXX-XX");
 		pnPares.setBorder(new TitledBorder("Pares"));
 		
 		pnWinner= new JPanel();
+		pnWinner.setLayout(new GridBagLayout());
+		pnWinner.setPreferredSize(new Dimension(200,120));
+		lbWinnerNumber= new JLabel("XXXXX-XXXXXXX");
 		pnWinner.setBorder(new TitledBorder("Ganador"));
-		pnWinner.setPreferredSize(new Dimension(200,100));
-		lbWinnerNumber= new JLabel();
 		
 		
 		
