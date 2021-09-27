@@ -15,7 +15,8 @@ public class HandlingEvents implements ActionListener {
  	static final String START_GAME= "Iniciar Juego";
  	static final String THROW_DICE="Jugador numero";
  	private MainWindow mainWindows;
- 	private GameManagement gameManagement;
+ 	private GameManagement gameManagement=new GameManagement();
+
 	
 	public HandlingEvents(MainWindow mainWindows) {
 		this.mainWindows=mainWindows;
@@ -26,36 +27,44 @@ public class HandlingEvents implements ActionListener {
 		// TODO Auto-generated method stub
 		switch (actionEvent.getActionCommand()) {
 		case START_GAME:
-			gameManagement= new GameManagement(mainWindows
-					.getCbPlayersNumber()
-					.getSelectedIndex()+1, mainWindows.getCbLevel()
-					.getSelectedItem()
-					.toString());
+			System.out.println();
+			gameManagement.gameInit(mainWindows.getCbPlayersNumber().getSelectedIndex()+1
+					, mainWindows.getCbLevel().getSelectedItem().toString());
+			System.out.println(gameManagement.getCurrentTurn()+"Cuerrent en estart");
+
+			mainWindows.getBtnThrowPlayer().setLabel("Jugador Numero "+gameManagement.getCurrentTurn());
 			mainWindows.getBtnStartGame().setEnabled(false);
 			mainWindows.getCbPlayersNumber().setEnabled(false);
+			mainWindows.getBtnThrowPlayer().setEnabled(true);
 			mainWindows.getCbLevel().setEnabled(false);
 			mainWindows.getBtnConfigurationParameters().setEnabled(false);
 			mainWindows.getBtnAbout().setEnabled(true);
 			break;
 		case CONFIGURATION_PARAMETERS:
-			String maxPlayers=JOptionPane.showInputDialog(null,"Ingrese la cantidad maxima de jugadores");
 			boolean state=false;
-			while (maxPlayers.isEmpty() || maxPlayers==null) {
-				JOptionPane.showMessageDialog(null, "Debe ingresar un numero por lo menos ");
-				maxPlayers=JOptionPane.showInputDialog(null,"Ingrese la cantidad maxima de jugadores");
+			String maxPlayers="";
+			maxPlayers=JOptionPane.showInputDialog(null,"Ingrese la cantidad maxima de jugadores");
+			if(maxPlayers==null) {
+				JOptionPane.showMessageDialog(null, "Proceso cancelado. Numero de jugadores por defecto");
+				break;
 			}
-			while(state) {
+			
+			while (maxPlayers.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Debe ingresar un numero por lo menos ");
+				
+			}
+			while(state==false) {
 				try {
-					
-					int maxplayers=(int) Double.parseDouble(maxPlayers);;
-					gameManagement.setMaxNumberPlayers(maxplayers);
-					gameManagement.setNumberPlayers(maxplayers);
+					double maxplayers=Double.parseDouble(maxPlayers);
+					int paxplayers=(int) maxplayers;
+					gameManagement.setMaxNumberPlayers(paxplayers);
 					mainWindows.getCbPlayersNumber().removeAllItems();
-					for (int i = 0; i < maxplayers; i++) {
+					for (int i = 0; i < paxplayers; i++) {
 						mainWindows.getCbPlayersNumber().addItem(i+1);
 					}
 					state=true;
 				} catch (Exception e) {
+					System.out.println(e.getMessage());
 					JOptionPane.showMessageDialog(null,"Lo ingresado no es un numero.Ingrese un numero valido" );
 					maxPlayers=JOptionPane.showInputDialog(null,"Ingrese la cantidad maxima de jugadores");
 					state=false;
@@ -82,11 +91,21 @@ public class HandlingEvents implements ActionListener {
 			
 			break;
 		case ABOUT_US:
-			String mensaje="";
+			String mensaje=" la verga con esto";
 			JOptionPane.showMessageDialog(null, mensaje);
 			break;
 		case THROW_DICE:
-
+			System.out.println("ThrowDiceBTN");
+			System.out.println(gameManagement.getCurrentTurn());
+			gameManagement.playGame(mainWindows.getLbShiftPlayerNumber()
+					, mainWindows.getLbAdvancedPositionsNumber()
+					, mainWindows.getLbRemainingPositionsNumber()
+					, mainWindows.getLbScore()
+					, mainWindows.getLbPairsNumbers()
+					, mainWindows.getLbWinnerNumber()
+					, mainWindows.getBtnThrowPlayer()
+					, mainWindows.getLbIconImage1()
+					, mainWindows.getLbIconImage2());
 			break;
 
 		default:

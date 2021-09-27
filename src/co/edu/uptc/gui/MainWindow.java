@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-
 public class MainWindow extends JFrame {
 	
 	JLabel lbTile;
@@ -56,6 +55,8 @@ public class MainWindow extends JFrame {
 	
 	JPanel pnWinner;
 	JLabel lbWinnerNumber;
+	
+	HandlingEvents handlingEvents = new HandlingEvents(this);
 	
 	
 	
@@ -254,6 +255,8 @@ public class MainWindow extends JFrame {
 		lbLevel = new JLabel("Nivel");
 		cbLevel=new JComboBox<>(new Object[] {"Básico","Medio","Alto"});
 		btnStartGame= new JButton("Iniciar Juego");
+		btnStartGame.setActionCommand(HandlingEvents.START_GAME);
+		btnStartGame.addActionListener(handlingEvents);
 		
 		
 		pnResults= new JPanel();
@@ -277,10 +280,17 @@ public class MainWindow extends JFrame {
 		pnComboButtons.setLayout(new GridBagLayout());
 
 		btnConfigurationParameters=new JButton("Parámetros Configuración");
+		btnConfigurationParameters.setActionCommand(HandlingEvents.CONFIGURATION_PARAMETERS);
+		btnConfigurationParameters.addActionListener(handlingEvents);
+		
 		btnNewGame=new JButton("Nuevo Juego");
 		btnNewGame.setEnabled(false);
+		btnNewGame.setActionCommand(HandlingEvents.NEW_GAME);
+		btnNewGame.addActionListener(new HandlingEvents(this));
 		btnAbout=new JButton("Acerca de...");
 		btnAbout.setEnabled(false);
+		btnAbout.setActionCommand(HandlingEvents.ABOUT_US);
+		btnAbout.addActionListener(new HandlingEvents(this));
 		
 		pnGameZone= new JPanel();
 		pnGameZone.setPreferredSize(new Dimension(new Dimension(200,120)));
@@ -297,6 +307,8 @@ public class MainWindow extends JFrame {
 		lbScore= new JLabel("99");
 		btnThrowPlayer= new JButton("Jugador numero");// Necesario hacer cambios
 		btnThrowPlayer.setEnabled(false);
+		btnThrowPlayer.setActionCommand(HandlingEvents.THROW_DICE);
+		btnThrowPlayer.addActionListener(handlingEvents);
 		
 		pnPares = new JPanel();
 		pnPares.setPreferredSize(new Dimension(200,120));
