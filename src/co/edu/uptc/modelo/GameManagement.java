@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 
 public class GameManagement {
@@ -106,7 +107,8 @@ public class GameManagement {
 	// Este metodo ejecuta el funionamiento completo del juego
 	
 	public boolean playGame(JLabel lbplayershift,JLabel lbadvancesPositions
-			,JLabel lbRemainingPositions,JLabel lbScore,JLabel lbpairNumbers,JLabel lbWinnerNumber) {
+			,JLabel lbRemainingPositions,JLabel lbScore,JLabel lbpairNumbers
+			,JLabel lbWinnerNumber,JButton btnShiftPlayer) {
 		
 		throwDice();
 
@@ -116,6 +118,7 @@ public class GameManagement {
 			winByPoints(lbWinnerNumber);
 			waitToContinueNextShift(lbplayershift, lbadvancesPositions, lbRemainingPositions, lbScore, lbpairNumbers, lbWinnerNumber);
 			if (inGame) 
+				btnShiftPlayer.setLabel("Jugador Numero "+currentTurn);
 				turningPlayers();
 			return true;
 		}
