@@ -23,17 +23,14 @@ public class HandlingEvents implements ActionListener {
 		this.mainWindows=mainWindows;
 	}
 
+	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		// TODO Auto-generated method stub
 		switch (actionEvent.getActionCommand()) {
 		case START_GAME:
 
 			gameManagement.gameInit(mainWindows.getCbPlayersNumber().getSelectedIndex()+1
-					, mainWindows.getCbLevel().getSelectedItem().toString());
-			System.out.println(gameManagement.getCurrentTurn());
-			System.out.println(gameManagement.getJugador().size());
-			
+					, mainWindows.getCbLevel().getSelectedItem().toString());			
 			mainWindows.getBtnThrowPlayer().setLabel("Jugador Numero "+gameManagement.getCurrentTurn());
 			mainWindows.getBtnStartGame().setEnabled(false);
 			mainWindows.getCbPlayersNumber().setEnabled(false);
@@ -117,8 +114,6 @@ public class HandlingEvents implements ActionListener {
 			JOptionPane.showMessageDialog(null, mensaje);
 			break;
 		case THROW_DICE:
-			System.out.println("----------------------------------------------------");
-			System.out.println("ThrowDiceBTN");
 			gameManagement.playGame(mainWindows.getLbShiftPlayerNumber()
 					, mainWindows.getLbAdvancedPositionsNumber()
 					, mainWindows.getLbRemainingPositionsNumber()

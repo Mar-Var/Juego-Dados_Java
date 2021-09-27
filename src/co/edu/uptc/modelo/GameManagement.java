@@ -1,7 +1,6 @@
 package co.edu.uptc.modelo;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Random;
@@ -25,12 +24,6 @@ public class GameManagement {
 	private final int MEDIUM_LEVEL=30;
 	private final int HARD_LEVEL=50;
 	private boolean inGame;
-	private ImageIcon imgDado1;
-	private ImageIcon imgDado2;
-	private ImageIcon imgDado3;
-	private ImageIcon imgDado4;
-	private ImageIcon imgDado5;
-	private ImageIcon imgDado6;
 	private ImageIcon gifDado1;
 	private ImageIcon gifDado2;
 	ArrayList<ImageIcon> arrimgs;
@@ -52,7 +45,7 @@ public class GameManagement {
 		this.numberPlayers=numberPlayers;
 		this.level=level;
 		this.numberPlayers=numberPlayers;
-		System.out.println(jugador.size()+"asdasd");
+
 		
 		addPlayers();
 		
@@ -108,7 +101,7 @@ public class GameManagement {
 	
 	// Este metodo ejecuta el funionamiento completo del juego
 	public void addImgDateGUI(JLabel img1,JLabel img2) {
-		System.out.println("addIGgDiceGUI");
+
 		for (int i = 0; i < 6 ; i++) {
 			if(score[0]==i+1) img1.setIcon(arrimgs.get(i));
 			if(score[1]==i+1) img2.setIcon(arrimgs.get(i));
@@ -120,22 +113,15 @@ public class GameManagement {
 			,JLabel lbWinnerNumber,JButton btnShiftPlayer,JLabel lbImage1
 			,JLabel lbImage2,JLabel lbReturns, JButton btnConfigure, JButton btnStartGame) {
 
-		
-		System.out.println("-----------------------------------------------------------------------------");
-		System.out.println("PlayGame");
 		throwDice();
-		System.out.println(inGame);
-		System.out.println(addScore(score));
 		if (addScore(score) && inGame) {
 			returnPlayer();
 			addPair();
 			addScore();
-			System.out.println("Muerte");
+
 			if(winByPoints(lbWinnerNumber,btnShiftPlayer,btnConfigure,btnStartGame) || isThreePair()) {
 				addImgDateGUI(lbImage1, lbImage2);
 		    	lbplayershift.setText(String.valueOf(currentTurn));
-		    	System.out.println(currentTurn);
-		    	System.out.println(jugador.get(currentTurn-1).getIdPlayer());
 		    	lbadvancesPositions.setText(String.valueOf(jugador.get(currentTurn-1).getCurrentScore()));
 		    	lbRemainingPositions.setText(String.valueOf(jugador.get(currentTurn-1).getRemainingScore()));
 		    	lbScore.setText(String.valueOf(score[0]+score[1]));
@@ -168,19 +154,19 @@ public class GameManagement {
 			,JLabel lbRemainingPositions,JLabel lbScore,JLabel lbpairNumbers,JLabel lbWinnerNumber
 			,JButton btnThrowPlayer,JLabel lbImage1,JLabel lbImage2,JLabel lbResturns){
 		
-		System.out.println("StarTimer");
+
        
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             int tic=1;
-            @Override
+            @SuppressWarnings("deprecation")
+			@Override
             public void run() {       
                 if(tic==1){
            
             			addImgDateGUI(lbImage1, lbImage2);
                     	lbplayershift.setText(String.valueOf(currentTurn));
-                    	System.out.println(currentTurn);
-                    	System.out.println(jugador.get(currentTurn-1).getIdPlayer());
+
                     	lbadvancesPositions.setText(String.valueOf(jugador.get(currentTurn-1).getCurrentScore()));
                     	lbRemainingPositions.setText(String.valueOf(jugador.get(currentTurn-1).getRemainingScore()));
                     	lbScore.setText(String.valueOf(score[0]+score[1]));
@@ -211,12 +197,12 @@ public class GameManagement {
             
         };
         timer.schedule(task,0,3000);  
-		System.out.println("EndTimer");
+
       }
 	
 	// Forma ciclica de los turnos
 	public void turningPlayers () {
-		System.out.println("TurningPlayers");
+
 		
 			if(score[0]==score[1]) {
 			}else {
@@ -237,7 +223,7 @@ public class GameManagement {
 		return score;
 	}
 	public boolean isPair() {
-		System.out.println("Ispair--------------------------------");
+
 		return score[0]==score[1]?true:false;
 		
 	}
@@ -256,7 +242,7 @@ public class GameManagement {
 	
 	// Añadir el score
 	public boolean addScore() {
-		System.out.println("addScoreDefinitve");
+
 		int amountAdd=0;
 		if(addScore(score)) {
 			if(score[0]==1 && score[1]==1) {
@@ -280,12 +266,12 @@ public class GameManagement {
 
 		if(score[0]==score[1]) {
 			jugador.get(currentTurn-1).addPair();;
-			System.out.println("AddPair");
+
 			return true;
 		}
 		else {
 			jugador.get(currentTurn-1).setPairs(0);
-			System.out.println("NotAddPair");
+			
 			return false;
 		}	 
 	}
@@ -300,7 +286,6 @@ public class GameManagement {
 	public boolean returnPlayer() {
 		
 		while(findPalyerWhitSameScore(this.score)!=null) {
-			System.out.println("Encontre un retorno para "+findPalyerWhitSameScore(this.score).getIdPlayer() );
 			findPalyerWhitSameScore(this.score).setRemainingScore(findPalyerWhitSameScore(score).getPointsLevel());;// Restaura la cantidad de puntos que le hacen falta
 			findPalyerWhitSameScore(this.score).addReturn();// Añade un retorno 
 			findPalyerWhitSameScore(this.score).setCurrentScore(0);// Restaura los puntos a cero
@@ -309,7 +294,7 @@ public class GameManagement {
 	}
 	// Este metodo me permite saber si ya se cumplieron tres pares y finaliza 
 	public boolean isThreePair() {
-		System.out.println("Threepair");
+
 		
 		if(jugador.get(currentTurn-1).getPairs()==3) {
 			this.winnerPlayer=jugador.get(currentTurn-1);
@@ -320,11 +305,9 @@ public class GameManagement {
 	}
 	
 	public boolean winByPoints(JLabel lbWinnerNumber,JButton lbthrowPlayer, JButton lbConfiguration,JButton lbStartGame) {
-		System.out.println("WinByPoints");
+
 		if(jugador.get(currentTurn-1).getRemainingScore()<=0) {
 			this.winnerPlayer=jugador.get(currentTurn-1);
-			System.out.println("Ya hay un ganador"+winnerPlayer.getCurrentScore()+"   "+winnerPlayer.getIdPlayer());
-			System.out.println();
 			
 			this.inGame=false;
 			return true;
