@@ -5,6 +5,9 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 public class GameManagement {
 	private int initialShift;
 	private String level;
@@ -19,6 +22,17 @@ public class GameManagement {
 	private final int MEDIUM_LEVEL=30;
 	private final int HARD_LEVEL=30;
 	private boolean inGame=false;
+	private ImageIcon imgDado1;
+	private ImageIcon imgDado2;
+	private ImageIcon imgDado3;
+	private ImageIcon imgDado4;
+	private ImageIcon imgDado5;
+	private ImageIcon imgDado6;
+	private ImageIcon gifDado1;
+	private ImageIcon gifDado2;
+	
+	ArrayList<ImageIcon> arrimgs;
+	private int MaxNumberPlayers=2;
 	
 	ArrayList<Jugador> jugador;
 	
@@ -34,7 +48,23 @@ public class GameManagement {
 		jugador= new ArrayList<>();
 		addPlayers();
 		selectFirstShift();
+		
 	}
+	
+	public void addDadeImgs() {
+		arrimgs= new ArrayList<>();
+		arrimgs.add(new ImageIcon("img/dado1.jpg"));
+		arrimgs.add(new ImageIcon("img/dado2.jpg"));
+		arrimgs.add(new ImageIcon("img/dado3.jpg"));
+		arrimgs.add(new ImageIcon("img/dado4.jpg"));
+		arrimgs.add(new ImageIcon("img/dado5.jpg"));
+		arrimgs.add(new ImageIcon("img/dado6.jpg"));
+		gifDado1=new ImageIcon("img/gifdado.gif");
+		gifDado2=new ImageIcon("img/gifdado2.gif");
+		
+	}
+	
+
 	
 	public boolean addPlayers() {
 		
@@ -46,14 +76,14 @@ public class GameManagement {
 	}
 	
 	public int selectLevelScore(String level) {
-		if(this.level.equals("Facil")) {
+		if(this.level.equals("Básico")) {
 			return BASIC_LEVEL;
 		}
 		else if(this.level.equals("Medio")) {
 			return MEDIUM_LEVEL;
 			
 		}
-		else if(this.level.equals("Dificil")) {
+		else if(this.level.equals("Alto")) {
 			return HARD_LEVEL;		
 		}
 		return 0;
@@ -75,21 +105,63 @@ public class GameManagement {
 	
 	// Este metodo ejecuta el funionamiento completo del juego
 	
-	public boolean playGame() {
+	public boolean playGame(JLabel lbplayershift,JLabel lbadvancesPositions
+			,JLabel lbRemainingPositions,JLabel lbScore,JLabel lbpairNumbers,JLabel lbWinnerNumber) {
+		
 		throwDice();
+
 		if (addScore(score) && inGame) {
 			addPair();
 			addScore();
-			winByPoints();
-			if (inGame) turningPlayers();
+			winByPoints(lbWinnerNumber);
+			waitToContinueNextShift(lbplayershift, lbadvancesPositions, lbRemainingPositions, lbScore, lbpairNumbers, lbWinnerNumber);
+			if (inGame) 
+				turningPlayers();
 			return true;
 		}
 		return false;
 	}
+	public void addImgDateGUI(JLabel img1,JLabel img2) {
+		for (int i = 0; i < 6 ; i++) {
+			if(score[0]==i+1) img1.setIcon(arrimgs.get(i));
+			if(score[1]==i+1) img2.setIcon(arrimgs.get(i));
+		}
+	}
+
+	public void waitToContinueNextShift(JLabel lbplayershift,JLabel lbadvancesPositions
+			,JLabel lbRemainingPositions,JLabel lbScore,JLabel lbpairNumbers,JLabel lbWinnerNumber){
+        
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            int tic=1;
+            @Override
+            public void run() {       
+                if(tic==1 && isPair()==false){
+                	lbplayershift.setText(String.valueOf(currentTurn));
+                	lbadvancesPositions.setText(String.valueOf(jugador.get(currentTurn-1).getCurrentScore()));
+                	lbRemainingPositions.setText(String.valueOf(jugador.get(currentTurn-1).getRemainingScore()));
+                	lbScore.setText(String.valueOf(score[0]+score[1]));
+                	lbpairNumbers.setText(String.valueOf(jugador.get(currentTurn-1).getPairs()));
+                	lbWinnerNumber.setText(String.valueOf(winnerPlayer==null
+                			?jugador.get(currentTurn-1).getIdPlayer():"XXXXXX-XX"));
+                }else{
+                    timer.cancel();
+                }
+              tic--;
+            }
+            
+        };
+        timer.schedule(task,0,3000);      
+      }
 	
 	// Forma ciclica de los turnos
 	public void turningPlayers () {
-			this.currentTurn++;
+		
+			if(score[0]==score[1]) {
+			}else {
+				this.currentTurn++;
+			}
+
 			if(currentTurn>jugador.size()) {
 				this.currentTurn=1;
 			}
@@ -102,6 +174,10 @@ public class GameManagement {
 		this.dice01= new Random().nextInt(6)+1;
 		this.dice02= new Random().nextInt(6)+1;
 		return score;
+	}
+	public boolean isPair() {
+		return score[0]==score[1]?true:false;
+		
 	}
 	
 	// Sumar dados y validar el score
@@ -173,58 +249,63 @@ public class GameManagement {
 		return false;
 	}
 	
-	public boolean winByPoints() {
+	public boolean winByPoints(JLabel lbWinnerNumber) {
 		if(jugador.get(currentTurn-1).getRemainingScore()==0) {
 			this.winnerPlayer=jugador.get(currentTurn-1);
+			lbWinnerNumber.setText(String.valueOf(winnerPlayer.getIdPlayer()));
 			inGame=false;
 			return true;
 		}
 		return false;
 	}
+	public Jugador showPlayerData() {
+		return jugador.get(currentTurn-1);
+	}
 	
 	
 	
-  /*  public void timerTask(String mensaje,String dato){
-        
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            int tic=1;
-            @Override
-            public void run() {
-                
-                if(tic==1){
-                  if(dato.equals("p1")){
-                      jLabelWaringp1.setText(mensaje); 
-                    }
-                  if(dato.equals("p2")){
-                      jLabelWaring.setText(mensaje); 
-                    }
 
-                }else{
-                    jLabelWaringp1.setText("");
-                    jLabelWaring.setText("");
-                    timer.cancel();
-                }
-              tic--;
-            }
-            
-        };
-        timer.schedule(task,0,3000);
-          
-          
-      }
-	
-	*/
-	
-	
-	
-	
-	
 	
 	
 	
 	public int getInitialShift() {
 		return initialShift;
+	}
+	public int getCurrentTurn() {
+		return currentTurn;
+	}
+	public void setCurrentTurn(int currentTurn) {
+		this.currentTurn = currentTurn;
+	}
+	public int getDice01() {
+		return dice01;
+	}
+	public void setDice01(int dice01) {
+		this.dice01 = dice01;
+	}
+	public int getDice02() {
+		return dice02;
+	}
+	public void setDice02(int dice02) {
+		this.dice02 = dice02;
+	}
+	public int[] getScore() {
+		return score;
+	}
+	public void setScore(int[] score) {
+		this.score = score;
+	}
+	public Jugador getWinnerPlayer() {
+		return winnerPlayer;
+	}
+	public void setWinnerPlayer(Jugador winnerPlayer) {
+		this.winnerPlayer = winnerPlayer;
+	}
+	public int getMaxNumberPlayers() {
+		return MaxNumberPlayers;
+	}
+	public void setMaxNumberPlayers(int maxNumberPlayers) {
+		MaxNumberPlayers = maxNumberPlayers;
 	}
 	public void setInitialShift(int initialShift) {
 		this.initialShift = initialShift;

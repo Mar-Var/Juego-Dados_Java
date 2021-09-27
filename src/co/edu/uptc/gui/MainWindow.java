@@ -250,9 +250,9 @@ public class MainWindow extends JFrame {
 		pnConfiguration.setBorder(new TitledBorder("Configuracion"));
 		
 		lbPlayersNumber = new JLabel("Número de Jugadores");
-		cbPlayersNumber= new JComboBox(new Object[] {"1","2"});
+		cbPlayersNumber= new JComboBox<Object>(new Object[] {"1","2"});
 		lbLevel = new JLabel("Nivel");
-		cbLevel=new JComboBox<>(new Object[] {"Basico","Medio","alto"});
+		cbLevel=new JComboBox<>(new Object[] {"Básico","Medio","Alto"});
 		btnStartGame= new JButton("Iniciar Juego");
 		
 		
@@ -278,7 +278,9 @@ public class MainWindow extends JFrame {
 
 		btnConfigurationParameters=new JButton("Parámetros Configuración");
 		btnNewGame=new JButton("Nuevo Juego");
+		btnNewGame.setEnabled(false);
 		btnAbout=new JButton("Acerca de...");
+		btnAbout.setEnabled(false);
 		
 		pnGameZone= new JPanel();
 		pnGameZone.setPreferredSize(new Dimension(new Dimension(200,120)));
@@ -293,32 +295,164 @@ public class MainWindow extends JFrame {
 		lbIconImage1=new JLabel(imageIcon1);
 		lbIconImage2=new JLabel(imageIcon2);;
 		lbScore= new JLabel("99");
-		btnThrowPlayer= new JButton();// Necesario hacer cambios
-		btnThrowPlayer.setLabel("Jugador numero");;
+		btnThrowPlayer= new JButton("Jugador numero");// Necesario hacer cambios
+		btnThrowPlayer.setEnabled(false);
 		
 		pnPares = new JPanel();
 		pnPares.setPreferredSize(new Dimension(200,120));
 		
 		pnPares.setLayout(new GridBagLayout());
 		lbPairsNumbers= new JLabel("XXX-XX");
-		pnPares.setBorder(new TitledBorder("Pares"));
+		pnPares.setBorder(new TitledBorder("Pares"));// Es lo que debe cambiar
 		
 		pnWinner= new JPanel();
 		pnWinner.setLayout(new GridBagLayout());
 		pnWinner.setPreferredSize(new Dimension(200,120));
-		lbWinnerNumber= new JLabel("XXXXX-XXXXXXX");
+		lbWinnerNumber= new JLabel("XXXXX-XXXXXXX");// Es lo que debe cambiar
 		pnWinner.setBorder(new TitledBorder("Ganador"));
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
+
+	public JLabel getLbPlayersNumber() {
+		return lbPlayersNumber;
+	}
+
+	public void setLbPlayersNumber(JLabel lbPlayersNumber) {
+		this.lbPlayersNumber = lbPlayersNumber;
+	}
+
+	public JComboBox getCbPlayersNumber() {
+		return cbPlayersNumber;
+	}
+
+	public void setCbPlayersNumber(JComboBox cbPlayersNumber) {
+		this.cbPlayersNumber = cbPlayersNumber;
+	}
+
+	public JComboBox getCbLevel() {
+		return cbLevel;
+	}
+
+	public void setCbLevel(JComboBox cbLevel) {
+		this.cbLevel = cbLevel;
+	}
+
+	public JButton getBtnStartGame() {
+		return btnStartGame;
+	}
+
+	public void setBtnStartGame(JButton btnStartGame) {
+		this.btnStartGame = btnStartGame;
+	}
+
+	public JLabel getLbShiftPlayerNumber() {
+		return lbShiftPlayerNumber;
+	}
+
+	public void setLbShiftPlayerNumber(JLabel lbShiftPlayerNumber) {
+		this.lbShiftPlayerNumber = lbShiftPlayerNumber;
+	}
+
+	public JLabel getLbAdvancedPositionsNumber() {
+		return lbAdvancedPositionsNumber;
+	}
+
+	public void setLbAdvancedPositionsNumber(JLabel lbAdvancedPositionsNumber) {
+		this.lbAdvancedPositionsNumber = lbAdvancedPositionsNumber;
+	}
+
+	public JLabel getLbRemainingPositionsNumber() {
+		return lbRemainingPositionsNumber;
+	}
+
+	public void setLbRemainingPositionsNumber(JLabel lbRemainingPositionsNumber) {
+		this.lbRemainingPositionsNumber = lbRemainingPositionsNumber;
+	}
+
+	public JLabel getLbReturnsNumber() {
+		return lbReturnsNumber;
+	}
+
+	public void setLbReturnsNumber(JLabel lbReturnsNumber) {
+		this.lbReturnsNumber = lbReturnsNumber;
+	}
+
+	public JButton getBtnConfigurationParameters() {
+		return btnConfigurationParameters;
+	}
+
+	public void setBtnConfigurationParameters(JButton btnConfigurationParameters) {
+		this.btnConfigurationParameters = btnConfigurationParameters;
+	}
+
+	public JButton getBtnNewGame() {
+		return btnNewGame;
+	}
+
+	public void setBtnNewGame(JButton btnNewGame) {
+		this.btnNewGame = btnNewGame;
+	}
+
+	public JButton getBtnAbout() {
+		return btnAbout;
+	}
+
+	public void setBtnAbout(JButton btnAbout) {
+		this.btnAbout = btnAbout;
+	}
+
+	public JLabel getLbIconImage1() {
+		return lbIconImage1;
+	}
+
+	public void setLbIconImage1(JLabel lbIconImage1) {
+		this.lbIconImage1 = lbIconImage1;
+	}
+
+	public JLabel getLbIconImage2() {
+		return lbIconImage2;
+	}
+
+	public void setLbIconImage2(JLabel lbIconImage2) {
+		this.lbIconImage2 = lbIconImage2;
+	}
+
+	public JLabel getLbScore() {
+		return lbScore;
+	}
+
+	public void setLbScore(JLabel lbScore) {
+		this.lbScore = lbScore;
+	}
+
+	public JButton getBtnThrowPlayer() {
+		return btnThrowPlayer;
+	}
+
+	public void setBtnThrowPlayer(JButton btnThrowPlayer) {
+		this.btnThrowPlayer = btnThrowPlayer;
+	}
+
+	public JLabel getLbPairsNumbers() {
+		return lbPairsNumbers;
+	}
+
+	public void setLbPairsNumbers(JLabel lbPairsNumbers) {
+		this.lbPairsNumbers = lbPairsNumbers;
+	}
+
+	public JLabel getLbWinnerNumber() {
+		return lbWinnerNumber;
+	}
+
+	public void setLbWinnerNumber(JLabel lbWinnerNumber) {
+		this.lbWinnerNumber = lbWinnerNumber;
+	}
+
+	
+	
+	
 	
 
 }

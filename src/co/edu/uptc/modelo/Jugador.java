@@ -24,8 +24,6 @@ public class Jugador {
 	public void addReturn() {
 		this.returns+=1;
 	}
-	
-	
 
 	public int getPointsLevel() {
 		return pointsLevel;
