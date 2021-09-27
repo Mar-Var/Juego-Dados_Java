@@ -1,5 +1,7 @@
 package co.edu.uptc.modelo;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Random;
@@ -9,6 +11,7 @@ import java.util.TimerTask;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+
 
 public class GameManagement {
 	private int initialShift;
@@ -128,7 +131,7 @@ public class GameManagement {
 			addPair();
 			addScore();
 			System.out.println("Muerte");
-			if(winByPoints(lbWinnerNumber,btnShiftPlayer,btnConfigure,btnStartGame)) {
+			if(winByPoints(lbWinnerNumber,btnShiftPlayer,btnConfigure,btnStartGame) || isThreePair()) {
 				addImgDateGUI(lbImage1, lbImage2);
 		    	lbplayershift.setText(String.valueOf(currentTurn));
 		    	System.out.println(currentTurn);
@@ -140,6 +143,7 @@ public class GameManagement {
 		    	lbpairNumbers.setText(String.valueOf(jugador.get(currentTurn-1).getPairs()));
 		    	lbWinnerNumber.setText(String.valueOf(winnerPlayer==null
 		    			?"XXXXXX-XX":jugador.get(currentTurn-1).getIdPlayer()));
+		    	lbWinnerNumber.setForeground(Color.RED);
 				btnShiftPlayer.setEnabled(false);
 				btnConfigure.setEnabled(false);
 				btnStartGame.setEnabled(false);
@@ -288,7 +292,7 @@ public class GameManagement {
 	
 	// Este metodo es para buscar si hay jugadores que tienen el mismo escore
 	public Jugador findPalyerWhitSameScore(int score[]) {
-		int suma = score[0]+score[1];
+		int suma = score[0]+score[1]+jugador.get(currentTurn-1).getCurrentScore();
 		return jugador.stream().filter((jugadorAux)->jugadorAux.getCurrentScore()==suma).findFirst().map(jugardorAux->jugardorAux).orElse(null);
 	}
 	// Regresar a cero el marcador de jugadores de la misma posicion
@@ -296,6 +300,7 @@ public class GameManagement {
 	public boolean returnPlayer() {
 		
 		while(findPalyerWhitSameScore(this.score)!=null) {
+			System.out.println("Encontre un retorno para "+findPalyerWhitSameScore(this.score).getIdPlayer() );
 			findPalyerWhitSameScore(this.score).setRemainingScore(findPalyerWhitSameScore(score).getPointsLevel());;// Restaura la cantidad de puntos que le hacen falta
 			findPalyerWhitSameScore(this.score).addReturn();// Añade un retorno 
 			findPalyerWhitSameScore(this.score).setCurrentScore(0);// Restaura los puntos a cero
@@ -320,6 +325,7 @@ public class GameManagement {
 			this.winnerPlayer=jugador.get(currentTurn-1);
 			System.out.println("Ya hay un ganador"+winnerPlayer.getCurrentScore()+"   "+winnerPlayer.getIdPlayer());
 			System.out.println();
+			
 			this.inGame=false;
 			return true;
 		}

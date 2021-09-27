@@ -1,5 +1,6 @@
 package co.edu.uptc.gui;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -96,6 +97,8 @@ public class HandlingEvents implements ActionListener {
 			mainWindows.getBtnNewGame().setEnabled(false);
 			mainWindows.getBtnThrowPlayer().setLabel("Jugador");
 			mainWindows.getBtnThrowPlayer().setEnabled(false);
+			
+			mainWindows.getLbWinnerNumber().setForeground(Color.BLACK);
 			
 			break;
 		case ABOUT_US:

@@ -315,12 +315,14 @@ public class MainWindow extends JFrame {
 		
 		pnPares.setLayout(new GridBagLayout());
 		lbPairsNumbers= new JLabel("XXX-XX");
+		lbPairsNumbers.setFont(new Font("Arial",Font.BOLD,18));
 		pnPares.setBorder(new TitledBorder("Pares"));// Es lo que debe cambiar
 		
 		pnWinner= new JPanel();
 		pnWinner.setLayout(new GridBagLayout());
 		pnWinner.setPreferredSize(new Dimension(200,120));
 		lbWinnerNumber= new JLabel("XXXXX-XXXXXXX");// Es lo que debe cambiar
+		lbWinnerNumber.setFont(new Font("Arial",Font.BOLD,18));
 		pnWinner.setBorder(new TitledBorder("Ganador"));
 		
 		
