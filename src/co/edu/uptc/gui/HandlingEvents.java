@@ -15,7 +15,7 @@ public class HandlingEvents implements ActionListener {
  	static final String START_GAME= "Iniciar Juego";
  	static final String THROW_DICE="Jugador numero";
  	private MainWindow mainWindows;
- 	private GameManagement gameManagement=new GameManagement();
+ 	private GameManagement gameManagement= new GameManagement();
 
 	
 	public HandlingEvents(MainWindow mainWindows) {
@@ -27,11 +27,12 @@ public class HandlingEvents implements ActionListener {
 		// TODO Auto-generated method stub
 		switch (actionEvent.getActionCommand()) {
 		case START_GAME:
-			System.out.println();
+
 			gameManagement.gameInit(mainWindows.getCbPlayersNumber().getSelectedIndex()+1
 					, mainWindows.getCbLevel().getSelectedItem().toString());
-			System.out.println(gameManagement.getCurrentTurn()+"Cuerrent en estart");
-
+			System.out.println(gameManagement.getCurrentTurn());
+			System.out.println(gameManagement.getJugador().size());
+			
 			mainWindows.getBtnThrowPlayer().setLabel("Jugador Numero "+gameManagement.getCurrentTurn());
 			mainWindows.getBtnStartGame().setEnabled(false);
 			mainWindows.getCbPlayersNumber().setEnabled(false);
@@ -39,6 +40,7 @@ public class HandlingEvents implements ActionListener {
 			mainWindows.getCbLevel().setEnabled(false);
 			mainWindows.getBtnConfigurationParameters().setEnabled(false);
 			mainWindows.getBtnAbout().setEnabled(true);
+			mainWindows.getBtnNewGame().setEnabled(true);
 			break;
 		case CONFIGURATION_PARAMETERS:
 			boolean state=false;
@@ -72,7 +74,8 @@ public class HandlingEvents implements ActionListener {
 			}
 			break;
 		case NEW_GAME:
-			gameManagement.endGame();
+			
+			this.gameManagement=new GameManagement();
 			mainWindows.getLbAdvancedPositionsNumber().setText("99");
 			mainWindows.getLbPairsNumbers().setText("XXX-XX");
 			mainWindows.getLbRemainingPositionsNumber().setText("99");
@@ -81,13 +84,18 @@ public class HandlingEvents implements ActionListener {
 			mainWindows.getLbWinnerNumber().setText("XXXXX-XXXXXXX");
 			mainWindows.getCbLevel().setSelectedIndex(0);
 			mainWindows.getCbPlayersNumber().setSelectedIndex(0);
-			mainWindows.getCbPlayersNumber().addItem(new Object[] {1,2});
+			mainWindows.getCbPlayersNumber().removeAllItems();
+			mainWindows.getCbPlayersNumber().addItem(1);
+			mainWindows.getCbPlayersNumber().addItem(2);
 			
 			mainWindows.getBtnStartGame().setEnabled(true);
 			mainWindows.getCbPlayersNumber().setEnabled(true);
 			mainWindows.getCbLevel().setEnabled(true);
 			mainWindows.getBtnConfigurationParameters().setEnabled(true);
 			mainWindows.getBtnAbout().setEnabled(true);
+			mainWindows.getBtnNewGame().setEnabled(false);
+			mainWindows.getBtnThrowPlayer().setLabel("Jugador");
+			mainWindows.getBtnThrowPlayer().setEnabled(false);
 			
 			break;
 		case ABOUT_US:
@@ -95,8 +103,8 @@ public class HandlingEvents implements ActionListener {
 			JOptionPane.showMessageDialog(null, mensaje);
 			break;
 		case THROW_DICE:
+			System.out.println("----------------------------------------------------");
 			System.out.println("ThrowDiceBTN");
-			System.out.println(gameManagement.getCurrentTurn());
 			gameManagement.playGame(mainWindows.getLbShiftPlayerNumber()
 					, mainWindows.getLbAdvancedPositionsNumber()
 					, mainWindows.getLbRemainingPositionsNumber()
@@ -105,7 +113,10 @@ public class HandlingEvents implements ActionListener {
 					, mainWindows.getLbWinnerNumber()
 					, mainWindows.getBtnThrowPlayer()
 					, mainWindows.getLbIconImage1()
-					, mainWindows.getLbIconImage2());
+					, mainWindows.getLbIconImage2()
+					, mainWindows.getLbReturnsNumber()
+					, mainWindows.getBtnConfigurationParameters()
+					,mainWindows.getBtnStartGame());
 			break;
 
 		default:

@@ -1,5 +1,6 @@
 package co.edu.uptc.modelo;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -17,10 +18,10 @@ public class GameManagement {
 	private int score[]= new int[2];
 	private Jugador winnerPlayer;
 	
-	private final int BASIC_LEVEL=30;
+	private final int BASIC_LEVEL=20;
 	private final int MEDIUM_LEVEL=30;
-	private final int HARD_LEVEL=30;
-	private boolean inGame=false;
+	private final int HARD_LEVEL=50;
+	private boolean inGame;
 	private ImageIcon imgDado1;
 	private ImageIcon imgDado2;
 	private ImageIcon imgDado3;
@@ -36,31 +37,36 @@ public class GameManagement {
 	// Seccion para inicio del juego
 	
 	public GameManagement () {
-		this.inGame=false;
-		jugador= new ArrayList<>();
-		this.currentTurn=25;
+		this.inGame=true;
+		this.currentTurn=0;
+		addDadeImgs();
+
 		
 	}
 	public void gameInit(int numberPlayers,String level) {
+		this.inGame=true;
+		jugador= new ArrayList<>();
 		this.numberPlayers=numberPlayers;
 		this.level=level;
 		this.numberPlayers=numberPlayers;
+		System.out.println(jugador.size()+"asdasd");
+		
 		addPlayers();
-		System.out.println("Numero de juegadores "+jugador.size());
+		
 		this.currentTurn=(int)(Math.random()*(jugador.size())+1);
 		
 	}
 	
 	public void addDadeImgs() {
 		arrimgs= new ArrayList<>();
-		arrimgs.add(new ImageIcon("img/dado1.jpg"));
-		arrimgs.add(new ImageIcon("img/dado2.jpg"));
-		arrimgs.add(new ImageIcon("img/dado3.jpg"));
-		arrimgs.add(new ImageIcon("img/dado4.jpg"));
-		arrimgs.add(new ImageIcon("img/dado5.jpg"));
-		arrimgs.add(new ImageIcon("img/dado6.jpg"));
-		gifDado1=new ImageIcon("img/gifdado.gif");
-		gifDado2=new ImageIcon("img/gifdado2.gif");
+		arrimgs.add(new ImageIcon(new ImageIcon("img/dado1.jpg").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT)));
+		arrimgs.add(new ImageIcon(new ImageIcon("img/dado2.jpg").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT)));
+		arrimgs.add(new ImageIcon(new ImageIcon("img/dado3.jpg").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT)));
+		arrimgs.add(new ImageIcon(new ImageIcon("img/dado4.jpg").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT)));
+		arrimgs.add(new ImageIcon(new ImageIcon("img/dado5.jpg").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT)));
+		arrimgs.add(new ImageIcon(new ImageIcon("img/dado6.jpg").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT)));
+		gifDado1=new ImageIcon(new ImageIcon("img/gifdado.gif").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+		gifDado2=new ImageIcon(new ImageIcon("img/gifdado2.gif").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		
 	}
 	
@@ -88,84 +94,98 @@ public class GameManagement {
 	}
 	
 	public void endGame() {
-		jugador.clear();
+		this.jugador.clear();
 		this.initialShift=0;
 		this.level="";
+		this.currentTurn=0;
 	}
-	public void selectFirstShift() {
-		//this.initialShift=(int)(Math.random()*(jugador.size())+1);
-		
-		System.out.println(currentTurn+"Este es el current turn");
-	}
-	
 	// Finaliza la seccion del inicio del juego
 	
 	// Inicia la seccion estando en juego.
 	
 	// Este metodo ejecuta el funionamiento completo del juego
-	
-	public boolean playGame(JLabel lbplayershift,JLabel lbadvancesPositions
-			,JLabel lbRemainingPositions,JLabel lbScore,JLabel lbpairNumbers
-			,JLabel lbWinnerNumber,JButton btnShiftPlayer,JLabel lbImage1,JLabel lbImage2) {
-		inGame=true;
-		System.out.println("PlayGame");
-		throwDice();
-		System.out.println(addScore());
-		System.out.println(inGame);
-		System.out.println("---------------------------------");
-		if (addScore(score) && inGame) {
-			returnPlayer();
-			addPair();
-			addScore();
-			System.out.println("Hasta aqui sirve");
-			winByPoints(lbWinnerNumber);
-			btnShiftPlayer.setEnabled(false);
-			if(inGame) {
-				waitToContinueNextShift(lbplayershift, lbadvancesPositions, lbRemainingPositions
-						, lbScore, lbpairNumbers, lbWinnerNumber,btnShiftPlayer,lbImage1,lbImage2);
-				turningPlayers();
-				lbImage1.setIcon(gifDado1);
-				lbImage2.setIcon(gifDado2);
-				btnShiftPlayer.setLabel("Jugador Numero "+currentTurn);
-				btnShiftPlayer.setEnabled(true);
-			}
-			return true;
-		}
-		return false;
-	}
 	public void addImgDateGUI(JLabel img1,JLabel img2) {
-		System.out.println("PlayGame");
+		System.out.println("addIGgDiceGUI");
 		for (int i = 0; i < 6 ; i++) {
 			if(score[0]==i+1) img1.setIcon(arrimgs.get(i));
 			if(score[1]==i+1) img2.setIcon(arrimgs.get(i));
 		}
 
 	}
+	public boolean playGame(JLabel lbplayershift,JLabel lbadvancesPositions
+			,JLabel lbRemainingPositions,JLabel lbScore,JLabel lbpairNumbers
+			,JLabel lbWinnerNumber,JButton btnShiftPlayer,JLabel lbImage1
+			,JLabel lbImage2,JLabel lbReturns, JButton btnConfigure, JButton btnStartGame) {
+
+		
+		System.out.println("-----------------------------------------------------------------------------");
+		System.out.println("PlayGame");
+		throwDice();
+		System.out.println(inGame);
+		System.out.println(addScore(score));
+		if (addScore(score) && inGame) {
+			returnPlayer();
+			addPair();
+			addScore();
+			System.out.println("Muerte");
+			if(winByPoints(lbWinnerNumber,btnShiftPlayer,btnConfigure,btnStartGame)) {
+				addImgDateGUI(lbImage1, lbImage2);
+		    	lbplayershift.setText(String.valueOf(currentTurn));
+		    	System.out.println(currentTurn);
+		    	System.out.println(jugador.get(currentTurn-1).getIdPlayer());
+		    	lbadvancesPositions.setText(String.valueOf(jugador.get(currentTurn-1).getCurrentScore()));
+		    	lbRemainingPositions.setText(String.valueOf(jugador.get(currentTurn-1).getRemainingScore()));
+		    	lbScore.setText(String.valueOf(score[0]+score[1]));
+		    	lbReturns.setText(String.valueOf(jugador.get(currentTurn-1).getReturns()));
+		    	lbpairNumbers.setText(String.valueOf(jugador.get(currentTurn-1).getPairs()));
+		    	lbWinnerNumber.setText(String.valueOf(winnerPlayer==null
+		    			?"XXXXXX-XX":jugador.get(currentTurn-1).getIdPlayer()));
+				btnShiftPlayer.setEnabled(false);
+				btnConfigure.setEnabled(false);
+				btnStartGame.setEnabled(false);
+				return false;
+			}
+
+			btnShiftPlayer.setEnabled(false);
+			if(inGame) {
+				waitToContinueNextShift(lbplayershift, lbadvancesPositions, lbRemainingPositions
+						, lbScore, lbpairNumbers, lbWinnerNumber,btnShiftPlayer,lbImage1,lbImage2,lbReturns);
+			//	turningPlayers();
+			//	btnShiftPlayer.setLabel("Jugador Numero "+currentTurn);
+
+			}				btnShiftPlayer.setEnabled(true);
+			return true;
+		}
+		return false;
+	}
+
 
 	public void waitToContinueNextShift(JLabel lbplayershift,JLabel lbadvancesPositions
 			,JLabel lbRemainingPositions,JLabel lbScore,JLabel lbpairNumbers,JLabel lbWinnerNumber
-			,JButton btnThrowPlayer,JLabel lbImage1,JLabel lbImage2){
+			,JButton btnThrowPlayer,JLabel lbImage1,JLabel lbImage2,JLabel lbResturns){
 		
 		System.out.println("StarTimer");
-        
+       
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             int tic=1;
             @Override
             public void run() {       
                 if(tic==1){
-                	if(isPair()==false) {
-                		addImgDateGUI(lbImage1, lbImage2);
+           
+            			addImgDateGUI(lbImage1, lbImage2);
                     	lbplayershift.setText(String.valueOf(currentTurn));
+                    	System.out.println(currentTurn);
+                    	System.out.println(jugador.get(currentTurn-1).getIdPlayer());
                     	lbadvancesPositions.setText(String.valueOf(jugador.get(currentTurn-1).getCurrentScore()));
                     	lbRemainingPositions.setText(String.valueOf(jugador.get(currentTurn-1).getRemainingScore()));
                     	lbScore.setText(String.valueOf(score[0]+score[1]));
+                    	lbResturns.setText(String.valueOf(jugador.get(currentTurn-1).getReturns()));
                     	lbpairNumbers.setText(String.valueOf(jugador.get(currentTurn-1).getPairs()));
                     	lbWinnerNumber.setText(String.valueOf(winnerPlayer==null
-                    			?jugador.get(currentTurn-1).getIdPlayer():"XXXXXX-XX"));	
+                    			?"XXXXXX-XX":jugador.get(currentTurn-1).getIdPlayer()));
                     	btnThrowPlayer.setEnabled(false);
-                	}
-                	else {
+                	/*else {
                     	lbplayershift.setText(String.valueOf(currentTurn));
                     	lbadvancesPositions.setText(String.valueOf(jugador.get(currentTurn-1).getCurrentScore()));
                     	lbRemainingPositions.setText(String.valueOf(jugador.get(currentTurn-1).getRemainingScore()));
@@ -173,9 +193,13 @@ public class GameManagement {
                     	lbpairNumbers.setText(String.valueOf(jugador.get(currentTurn-1).getPairs()));
                     	lbWinnerNumber.setText(String.valueOf(winnerPlayer==null
                     			?jugador.get(currentTurn-1).getIdPlayer():"XXXXXX-XX"));
-                		timer.cancel();
-                	}
+                	}*/
                 }else{
+                	btnThrowPlayer.setEnabled(true);
+        			turningPlayers();
+        			btnThrowPlayer.setLabel("Jugador Numero "+currentTurn);
+    				lbImage1.setIcon(gifDado1);
+    				lbImage2.setIcon(gifDado2);
                     timer.cancel();
                 }
               tic--;
@@ -204,13 +228,12 @@ public class GameManagement {
 	
 	// lanzamiento de dados
 	public int[] throwDice(){
-		System.out.println("ThrowDice");
 		this.score[0]= new Random().nextInt(6)+1;
 		this.score[1]= new Random().nextInt(6)+1;
 		return score;
 	}
 	public boolean isPair() {
-		System.out.println("Ispair");
+		System.out.println("Ispair--------------------------------");
 		return score[0]==score[1]?true:false;
 		
 	}
@@ -219,11 +242,10 @@ public class GameManagement {
 	public boolean addScore(int score[]) {
 		jugador.get(currentTurn-1).setDiceScore(score);
 		if(score[0]==1 && score[1]==1) {
-			return 7-jugador.get(currentTurn-1).getRemainingScore()<0?false:true;
+			return jugador.get(currentTurn-1).getRemainingScore()-7<0?false:true;
 		}else {
-			System.out.println(jugador.get(currentTurn-1).getRemainingScore()<0-(score[0]+score[1]));
-			System.out.println("maldita cosa");
-			return jugador.get(currentTurn-1).getRemainingScore()<0-(score[0]+score[1])?false:true;
+			return true;
+			//return jugador.get(currentTurn-1).getRemainingScore()-score[0]-score[1]<0?false:true;
 		}
 		
 	}
@@ -235,12 +257,12 @@ public class GameManagement {
 		if(addScore(score)) {
 			if(score[0]==1 && score[1]==1) {
 				amountAdd=7;
-				jugador.get(currentTurn-1).setCurrentScore(amountAdd);
+				jugador.get(currentTurn-1).setCurrentScore(amountAdd+jugador.get(currentTurn-1).getCurrentScore());
 				jugador.get(currentTurn-1).setRemainingScore(jugador.get(currentTurn-1).getRemainingScore()-amountAdd);;
 				return true;
 			}else {
 				amountAdd=score[0]+score[1];
-				jugador.get(currentTurn-1).setCurrentScore(amountAdd);
+				jugador.get(currentTurn-1).setCurrentScore(amountAdd+jugador.get(currentTurn-1).getCurrentScore());
 				jugador.get(currentTurn-1).setRemainingScore(jugador.get(currentTurn-1).getRemainingScore()-amountAdd);;
 				return true;
 			}
@@ -277,8 +299,6 @@ public class GameManagement {
 			findPalyerWhitSameScore(this.score).setRemainingScore(findPalyerWhitSameScore(score).getPointsLevel());;// Restaura la cantidad de puntos que le hacen falta
 			findPalyerWhitSameScore(this.score).addReturn();// Añade un retorno 
 			findPalyerWhitSameScore(this.score).setCurrentScore(0);// Restaura los puntos a cero
-
-			System.out.println("ReturnPlayer"+String.valueOf(findPalyerWhitSameScore(this.score).getIdPlayer()));
 		}
 		return true;
 	}
@@ -294,15 +314,20 @@ public class GameManagement {
 		return false;
 	}
 	
-	public boolean winByPoints(JLabel lbWinnerNumber) {
+	public boolean winByPoints(JLabel lbWinnerNumber,JButton lbthrowPlayer, JButton lbConfiguration,JButton lbStartGame) {
 		System.out.println("WinByPoints");
-		if(jugador.get(currentTurn-1).getRemainingScore()==0) {
+		if(jugador.get(currentTurn-1).getRemainingScore()<=0) {
 			this.winnerPlayer=jugador.get(currentTurn-1);
-			
-			inGame=false;
+			System.out.println("Ya hay un ganador"+winnerPlayer.getCurrentScore()+"   "+winnerPlayer.getIdPlayer());
+			System.out.println();
+			this.inGame=false;
 			return true;
 		}
-		return false;
+		else {
+			this.inGame=true;
+			return false;
+		}
+
 	}
 	
 	
