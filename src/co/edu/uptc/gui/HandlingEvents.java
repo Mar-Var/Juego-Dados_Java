@@ -102,7 +102,18 @@ public class HandlingEvents implements ActionListener {
 			
 			break;
 		case ABOUT_US:
-			String mensaje=" la verga con esto";
+			String mensaje="Integrantes:\n"
+					+ "Marcos Esteban Vargas Avella. Codigo 201620364\n"
+					+ "\n"
+					+ "Instrucciones:\n"
+					+ "1. Para añadir una cantidad maxima a el numero de participantes vaya a\n"
+					+ "Configuracion Parametros\n"
+					+ "2. Para un nuevo juego presione Nuevo Juego\n"
+					+ "3. Para iniciar una juego presione en Iniciar juego\n"
+					+ "Importante:\n"
+					+ "1.Cada vez que presiones en el boton Jugador Numero el boton se desactivara por 3 segundos.\n"
+					+ "2.Una vez haya una ganador se desactivaran los botones Jugador Numero ## e Iniciar juego\n"
+					+ "  y el numero ganador se resaltara en rojo";
 			JOptionPane.showMessageDialog(null, mensaje);
 			break;
 		case THROW_DICE:

@@ -288,7 +288,7 @@ public class MainWindow extends JFrame {
 		btnNewGame.setActionCommand(HandlingEvents.NEW_GAME);
 		btnNewGame.addActionListener(new HandlingEvents(this));
 		btnAbout=new JButton("Acerca de...");
-		btnAbout.setEnabled(false);
+		btnAbout.setEnabled(true);
 		btnAbout.setActionCommand(HandlingEvents.ABOUT_US);
 		btnAbout.addActionListener(new HandlingEvents(this));
 		
