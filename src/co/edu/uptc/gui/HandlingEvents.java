@@ -101,7 +101,7 @@ public class HandlingEvents implements ActionListener {
 		case ABOUT_US:
 			String mensaje="Integrantes:\n"
 					+ "Marcos Esteban Vargas Avella. Codigo 201620364\n"
-					+ "\n"
+					+ "Jherson Mauricio Baez Paco. Codigo 3228946818\n"
 					+ "Instrucciones:\n"
 					+ "1. Para añadir una cantidad maxima a el numero de participantes vaya a\n"
 					+ "Configuracion Parametros\n"

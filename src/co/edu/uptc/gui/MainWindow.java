@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -302,7 +303,8 @@ public class MainWindow extends JFrame {
 		pnComboImagen.setLayout(new GridBagLayout());
 		ImageIcon imageIcon1 = new ImageIcon(new ImageIcon("img/gifdado2.gif").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		ImageIcon imageIcon2 = new ImageIcon(new ImageIcon("img/gifdado.gif").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
-		lbIconImage1=new JLabel(imageIcon1);
+		lbIconImage1=new JLabel();
+		lbIconImage1.setIcon(imageIcon1);
 		lbIconImage2=new JLabel(imageIcon2);;
 		lbScore= new JLabel("99");
 		btnThrowPlayer= new JButton("Jugador numero");// Necesario hacer cambios
